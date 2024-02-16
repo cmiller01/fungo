@@ -85,9 +85,9 @@ func makeRequest() {
 	io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close()
 	if resp.StatusCode == http.StatusOK {
-		fmt.Printf(".")
+		fmt.Printf("ok")
 	} else {
-		fmt.Printf("�")
+		fmt.Printf("not ok")
 	}
 }
 
@@ -103,14 +103,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// load_test_clientCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	seed := time.Now().UnixNano()
-	rand.Seed(seed)
-	r = rng.NewPoissonGenerator(seed)
-	go func() {
-		for {
-			fmt.Printf(" ")
-			time.Sleep(delay)
-		}
-	}()
-
 }
