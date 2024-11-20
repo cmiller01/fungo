@@ -1,0 +1,22 @@
+{
+    "name": "Go 1.22 CLI Development",
+    "image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
+    "features": {},
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "go.gopath": "/go",
+                "go.useLanguageServer": true,
+                "go.lintTool": "golangci-lint",
+                "go.lintFlags": ["--fast"]
+            },
+            "extensions": [
+                "golang.go",
+                "ms-vscode.go"
+            ]
+        }
+    },
+    "appPort": [8080],
+    "postCreateCommand": "go mod tidy && go build",
+    "remoteUser": "root"
+}
