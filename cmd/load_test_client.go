@@ -23,7 +23,6 @@ package cmd
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -45,13 +44,16 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// TODO: Work your own magic here
+		r = rng.NewPoissonGenerator(1)
 		Loop("Constant", constant)
 		Loop("Uniform", uniform)
 		Loop("Poisson", poisson)
 	},
 }
-var delay = 100 * time.Millisecond
-var N = 100
+
+const delay = 1 * time.Millisecond
+const N = 1000
+
 var r *rng.PoissonGenerator
 
 type delayFunc func() float32
@@ -82,12 +84,12 @@ func makeRequest() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	io.Copy(ioutil.Discard, resp.Body)
+	io.Copy(io.Discard, resp.Body)
 	resp.Body.Close()
 	if resp.StatusCode == http.StatusOK {
-		fmt.Printf("ok")
+		fmt.Println("ok")
 	} else {
-		fmt.Printf("not ok")
+		fmt.Println("not ok")
 	}
 }
 

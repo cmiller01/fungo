@@ -21,6 +21,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -31,21 +32,16 @@ import (
 // loadTestServerCmd represents the loadTestServer command
 var loadTestServerCmd = &cobra.Command{
 	Use:   "load_test_server",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Running a server that returns ok (but sometimes is locked)",
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
 		var locked bool
 		fn := func(w http.ResponseWriter, r *http.Request) {
 			if locked {
+				fmt.Println("yikes, locked")
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
+			// not sure exactly what i was looking to do with this one...
 			locked = true
 			go time.AfterFunc(time.Millisecond, func() { locked = false })
 		}
