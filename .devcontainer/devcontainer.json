@@ -16,6 +16,7 @@
             ]
         }
     },
+    "runArgs": ["--network=host"],
     "appPort": [8080],
     "postCreateCommand": "go mod tidy && go build -buildvcs=false",
     "remoteUser": "root"
