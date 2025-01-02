@@ -17,6 +17,6 @@
         }
     },
     "appPort": [8080],
-    "postCreateCommand": "go mod tidy && go build",
+    "postCreateCommand": "go mod tidy && go build -buildvcs=false",
     "remoteUser": "root"
 }
