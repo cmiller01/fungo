@@ -1,8 +1,8 @@
 module github.com/cmiller01/fungo
 
-go 1.22.0
+go 1.25.5
 
-toolchain go1.22.2
+toolchain go1.25.5
 
 require (
 	github.com/go-resty/resty/v2 v2.15.3
