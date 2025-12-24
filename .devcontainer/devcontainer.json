@@ -1,6 +1,6 @@
 {
-    "name": "Go 1.22 CLI Development",
-    "image": "mcr.microsoft.com/devcontainers/go:1-1.22-bookworm",
+    "name": "Go 1.25.5 CLI Development",
+    "image": "mcr.microsoft.com/devcontainers/go:1-1.25-bookworm",
     "features": {},
     "customizations": {
         "vscode": {
