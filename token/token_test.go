@@ -2,7 +2,54 @@ package token
 
 import (
 	"testing"
+	"time"
 )
+
+// TestTokenHelpers tests helper functions that don't require database
+func TestTokenHelpers(t *testing.T) {
+	t.Run("tokenToArgs and createToken roundtrip", func(t *testing.T) {
+		token := &Token{limit: 2}
+
+		// Create test data
+		testTime := time.Date(2024, 1, 15, 12, 30, 45, 123456789, time.UTC)
+		testFoos := []Foo{
+			{ID: 1, Data: "first", UpdatedAt: testTime},
+			{ID: 2, Data: "second", UpdatedAt: testTime},
+			{ID: 3, Data: "third", UpdatedAt: testTime},
+		}
+
+		// Create token from foos
+		tokenStr := token.createToken(testFoos)
+
+		// Parse it back
+		id, parsedTime := token.tokenToArgs(tokenStr)
+
+		// Verify the roundtrip
+		if id != 3 {
+			t.Errorf("expected id 3, got %d", id)
+		}
+		if !parsedTime.Equal(testTime) {
+			t.Errorf("expected time %v, got %v", testTime, parsedTime)
+		}
+	})
+
+	t.Run("toJSON creates valid json", func(t *testing.T) {
+		testTime := time.Date(2024, 1, 15, 12, 30, 45, 0, time.UTC)
+		testFoos := []Foo{
+			{ID: 1, Data: "test", CreatedAt: testTime, UpdatedAt: testTime},
+		}
+
+		result := toJSON(testFoos, "old_token", "new_token")
+
+		// Basic validation that we got JSON back
+		if len(result) == 0 {
+			t.Error("expected non-empty JSON result")
+		}
+		if result[0] != '{' {
+			t.Error("expected JSON to start with {")
+		}
+	})
+}
 
 // TestToken tests some implementations of selecting records with a token
 // each record should be returned to client at least once (dups are ok)
